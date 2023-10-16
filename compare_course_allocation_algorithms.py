@@ -1,9 +1,6 @@
 """
 Compare the performance of algorithms for fair course allocation.
 
-To run this file, you need
-    pip install experiments_csv
-
 Programmer: Erel Segal-Halevi
 Since: 2023-07
 """
@@ -78,7 +75,7 @@ def course_allocation_with_random_instance_szws(
 import json
 filename = "data/ariel_5783_input.json"
 with open(filename, "r", encoding="utf-8") as file:
-    ariel_5783_input = json.load(input)
+    ariel_5783_input = json.load(file)
 
 def course_allocation_with_random_instance_sample(
     max_total_agent_capacity:int, 
@@ -142,6 +139,5 @@ if __name__ == "__main__":
         "algorithm": algorithms_to_check,
         "random_seed": range(10),
     }
-    # experiment.run_with_time_limit(course_allocation_with_random_instance_sample, input_ranges, time_limit=TIME_LIMIT)
-
+    experiment.run_with_time_limit(course_allocation_with_random_instance_sample, input_ranges, time_limit=TIME_LIMIT)
 

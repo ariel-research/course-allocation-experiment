@@ -1,9 +1,3 @@
-"""
-To run this file, you need to
-    pip install experiments_csv>=0.5.3
-"""
-
-
 from experiments_csv import single_plot_results, multi_plot_results
 from matplotlib import pyplot as plt
 from pathlib import Path
@@ -39,12 +33,26 @@ def plot_course_allocation_results_szws():
           )
 
 
+def plot_course_allocation_results_ariel():
+     y_fields=["utilitarian_value","egalitarian_value", "max_envy", "mean_envy",  "mean_deficit", "max_deficit", "num_with_top_1", "num_with_top_2", "num_with_top_3","runtime"]
+     multi_multi_plot_results(
+          results_csv_file="results/course_allocation_szws.csv", 
+          save_to_file_template="results/course_allocation_szws_{}.png",
+          filter=filter, 
+          x_field="supply_ratio", y_fields=y_fields, z_field="algorithm", mean=True,
+          subplot_field="num_of_popular_items", subplot_rows=2, subplot_cols=1, sharey=True, sharex=True,
+          legend_properties={"size":6}, 
+          )
+
+
 
 
 def plot_course_allocation_results_uniform():
      filter={"num_of_items": 20, 
           "algorithm": [
-               "yekta_day", "almost_egalitarian_allocation", "iterated_maximum_matching_unadjusted","iterated_maximum_matching_adjusted","almost_egalitarian_without_donation","almost_egalitarian_with_donation",
+               "yekta_day", 
+               "iterated_maximum_matching_unadjusted","iterated_maximum_matching_adjusted",
+               "almost_egalitarian_without_donation","almost_egalitarian_with_donation",
                "round_robin", "bidirectional_round_robin"
                ]}
      y_fields=["utilitarian_value","egalitarian_value", "max_envy", "mean_envy",  "mean_deficit", "max_deficit", "num_with_top_1", "num_with_top_2", "num_with_top_3","runtime"]
