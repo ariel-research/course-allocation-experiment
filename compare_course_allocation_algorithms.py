@@ -4,8 +4,9 @@ Compare the performance of algorithms for fair course allocation.
 Programmer: Erel Segal-Halevi
 Since: 2023-07
 """
-import fairpy.courses as crs
-from fairpy.courses.adaptors import divide
+
+from fairpyx import divide, AgentBundleValueMatrix, Instance
+import fairpyx.algorithms as crs
 from typing import *
 import numpy as np
 
@@ -14,7 +15,7 @@ normalized_sum_of_values = 1000
 
 def evaluate_algorithm_on_instance(algorithm, instance):
     allocation = divide(algorithm, instance)
-    matrix = crs.AgentBundleValueMatrix(instance, allocation)
+    matrix = AgentBundleValueMatrix(instance, allocation)
     matrix.use_normalized_values()
     return {
         "utilitarian_value": matrix.utilitarian_value(),
@@ -37,7 +38,7 @@ def course_allocation_with_random_instance_uniform(
     agent_capacity_bounds =  [6,6]
     item_capacity_bounds = [40,40]    
     np.random.seed(random_seed)
-    instance = crs.Instance.random_uniform(
+    instance = Instance.random_uniform(
         num_of_agents=num_of_agents, num_of_items=num_of_items, normalized_sum_of_values=normalized_sum_of_values,
         agent_capacity_bounds=agent_capacity_bounds, 
         item_capacity_bounds=item_capacity_bounds, 
@@ -58,7 +59,7 @@ def course_allocation_with_random_instance_szws(
     algorithm:Callable,
     random_seed: int,):
     np.random.seed(random_seed)
-    instance = crs.Instance.random_szws(
+    instance = Instance.random_szws(
         num_of_agents=num_of_agents, num_of_items=num_of_items, normalized_sum_of_values=normalized_sum_of_values,
         agent_capacity=agent_capacity, 
         supply_ratio=supply_ratio, 
@@ -85,7 +86,7 @@ def course_allocation_with_random_instance_sample(
 
     (valuations, agent_capacities, item_capacities, agent_conflicts, item_conflicts) = \
         (ariel_5783_input["valuations"], ariel_5783_input["agent_capacities"], ariel_5783_input["item_capacities"], ariel_5783_input["agent_conflicts"], ariel_5783_input["item_conflicts"])
-    instance = crs.Instance.random_sample(
+    instance = Instance.random_sample(
         max_num_of_agents = max_total_agent_capacity, 
         max_total_agent_capacity = max_total_agent_capacity,
         prototype_agent_conflicts=agent_conflicts,
@@ -105,10 +106,9 @@ if __name__ == "__main__":
         crs.iterated_maximum_matching_unadjusted, 
         crs.iterated_maximum_matching_adjusted, 
         crs.serial_dictatorship,                  # Very bad performance
-        # crs.course_allocation_by_proxy_auction,   # Very bad performance
         crs.round_robin, 
         crs.bidirectional_round_robin,
-        crs.yekta_day,
+        # crs.yekta_day,
         crs.almost_egalitarian_without_donation,
         crs.almost_egalitarian_with_donation,
         ]
