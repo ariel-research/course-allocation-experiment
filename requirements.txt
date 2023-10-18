@@ -1,2 +1,2 @@
-fairpy @ git+https://github.com/erelsgl/fairpy.git
+fairpyx
 experiments-csv[plotting]
