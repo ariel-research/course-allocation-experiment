@@ -97,24 +97,19 @@ def course_allocation_with_random_instance_sample(
     return evaluate_algorithm_on_instance(algorithm, instance)
 
 
-if __name__ == "__main__":
-    import logging, experiments_csv
-    experiments_csv.logger.setLevel(logging.INFO)
-    TIME_LIMIT = 100
-    algorithms_to_check = [
-        crs.utilitarian_matching, 
-        crs.iterated_maximum_matching_unadjusted, 
-        crs.iterated_maximum_matching_adjusted, 
-        crs.serial_dictatorship,                  # Very bad performance
-        crs.round_robin, 
-        crs.bidirectional_round_robin,
-        # crs.yekta_day,
-        crs.almost_egalitarian_without_donation,
-        crs.almost_egalitarian_with_donation,
-        ]
+TIME_LIMIT = 100
+algorithms_to_check = [
+    crs.utilitarian_matching, 
+    crs.iterated_maximum_matching_unadjusted, 
+    crs.iterated_maximum_matching_adjusted, 
+    crs.serial_dictatorship,                  # Very bad performance
+    crs.round_robin, 
+    crs.bidirectional_round_robin,
+    crs.almost_egalitarian_without_donation,
+    crs.almost_egalitarian_with_donation,
+    ]
 
-
-
+def run_szws_experiment():
     # Run on SZWS simulated data:
     experiment = experiments_csv.Experiment("results/", "course_allocation_szws.csv", backup_folder="results/backup/")
     input_ranges = {
@@ -131,7 +126,7 @@ if __name__ == "__main__":
     }
     experiment.run_with_time_limit(course_allocation_with_random_instance_szws, input_ranges, time_limit=TIME_LIMIT)
 
-
+def run_ariel_experiment():
     # Run on Ariel sample data:
     experiment = experiments_csv.Experiment("results/", "course_allocation_ariel.csv", backup_folder="results/backup/")
     input_ranges = {
@@ -140,4 +135,12 @@ if __name__ == "__main__":
         "random_seed": range(10),
     }
     experiment.run_with_time_limit(course_allocation_with_random_instance_sample, input_ranges, time_limit=TIME_LIMIT)
+
+
+if __name__ == "__main__":
+    import logging, experiments_csv
+    experiments_csv.logger.setLevel(logging.INFO)
+    # run_szws_experiment()
+    run_ariel_experiment()
+
 
